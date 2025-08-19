@@ -12,7 +12,7 @@ run_dev.*
 ^CODE_OF_CONDUCT\.md$
 ^app\.R$
 ^rsconnect$
-
+^brand.yml$
 ^recruitment.xlsx$
 ^nhp_eet.db$
 ^deploy.R$
