@@ -81,17 +81,27 @@ mod_view_results_server <- function(id) {
 
     output$individuals <- shiny::renderPlot({
       results_data() |>
+        dplyr::filter(
+          !(.data[["lo"]] == get_golem_config("range")$low &
+            .data[["hi"]] == get_golem_config("range")$high)
+        ) |> # Remove any values left at default
         ggplot2::ggplot(
           ggplot2::aes(x = .data[["lo"]], y = .data[["rn"]])
         ) +
         ggplot2::geom_segment(
-          ggplot2::aes(xend = .data[["hi"]], yend = .data[["rn"]])
+          ggplot2::aes(xend = .data[["hi"]], yend = .data[["rn"]]),
+          lwd = 2
         ) +
         ggplot2::geom_point(
           data = \(.x) tidyr::pivot_longer(.x, -"rn"),
-          ggplot2::aes(x = .data[["value"]])
+          ggplot2::aes(x = .data[["value"]]),
+          size = 4
         ) +
-        ggplot2::theme_minimal() +
+        ggplot2::theme_minimal(base_size = 16) +
+        ggplot2::xlim(
+          get_golem_config("range")$low,
+          get_golem_config("range")$high
+        ) +
         ggplot2::theme(
           axis.text.y = ggplot2::element_blank(),
           axis.title = ggplot2::element_blank(),

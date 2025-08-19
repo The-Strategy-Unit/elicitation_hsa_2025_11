@@ -18,47 +18,35 @@ mod_view_results_ui <- function(id) {
 
 
   ns <- shiny::NS(id)
-  
+
   bslib::layout_columns(
-    col_widths = c(3, 3, 3, 3, 6, 6),
-    
+    col_widths = c(3, 3, 3, 3, 12),
     bslib::value_box(
       title = "Total Users",
       value = shiny::textOutput(ns("total_users")),
       showcase = bsicons::bs_icon("people")
     ),
-    
     bslib::value_box(
-      title = "Partialy Completed",
+      title = "Partially Completed",
       value = shiny::textOutput(ns("partially_completed")),
       showcase = bsicons::bs_icon("flag")
     ),
-    
     bslib::value_box(
       title = "Fully Completed",
       value = shiny::textOutput(ns("fully_completed")),
       showcase = bsicons::bs_icon("check")
     ),
-    
     bslib::card(
       shiny::downloadButton(ns("download_results"), "Download results")
     ),
-    
     bslib::card(
-      bslib::card_header("Mitigator selection"),
+      bslib::card_header("Results"),
       shiny::selectInput(
         ns("strategy"),
         "Strategies",
         strategies
-      ), 
-      shiny::plotOutput(ns("distributions"), height = "600px"),
-      shiny::plotOutput(ns("individuals"), height = "600px")
-    ),
-  
-    bslib::card(
-    shiny::plotOutput(
-      ns("completed_plot")
+      ),
+      shiny::plotOutput(ns("individuals"))
     )
-  )
   )
 }
