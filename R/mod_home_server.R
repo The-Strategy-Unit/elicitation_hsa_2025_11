@@ -134,7 +134,7 @@ mod_home_server <- function(id) {
           completed_strategies(),
           by = dplyr::join_by("strategy")
         ) |>
-        dplyr::select(-"strategy", -"min_year") |>
+        dplyr::select(-"strategy") |>
         gt::gt(groupname_col = "label") |>
         gt::cols_label(name = "Mitigator") |>
         gt::tab_options(
