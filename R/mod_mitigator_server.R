@@ -99,7 +99,7 @@ mod_mitigator_server <- function(id, email, strategies) {
 
       shiny::updateSliderInput(
         session,
-        "param_values",
+        "p10_p90",
         value = c(v$lo, v$hi)
       )
 
@@ -199,6 +199,16 @@ mod_mitigator_server <- function(id, email, strategies) {
     }
 
     # output renderers ---------------------------------------------------------
+
+    # The split normal is visualised
+    output$split_normal_plot <- shiny::renderPlot({
+      est_spnorm_from_p10p90(
+        mode = input$mode,
+        p10 = input$p10_p90[1],
+        p90 = input$p10_p90[2]
+      ) |>
+        plot_split_normal()
+    })
 
     # the title displayed at the top of the page
     output$strategy <- shiny::renderText({
