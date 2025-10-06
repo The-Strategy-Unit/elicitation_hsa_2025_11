@@ -17,6 +17,7 @@ mod_complete_server <- function(id, email, strategies) {
           "strategy",
           "lo",
           "hi",
+          "mode",
           "comments_lo",
           "comments_hi"
         )
@@ -34,6 +35,7 @@ mod_complete_server <- function(id, email, strategies) {
           name = "Mitigator",
           lo = "Low",
           hi = "High",
+          mode = "Mode",
           comments_lo = "Low",
           comments_hi = "High"
         ) |>

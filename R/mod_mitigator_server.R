@@ -87,6 +87,9 @@ mod_mitigator_server <- function(id, email, strategies) {
           list(
             lo = get_golem_config("range")$low,
             hi = get_golem_config("range")$high,
+            mode = (get_golem_config("range")$high -
+              get_golem_config("range")$low) /
+              2, # sensible default
             comments_lo = "",
             comments_hi = ""
           )
@@ -101,6 +104,12 @@ mod_mitigator_server <- function(id, email, strategies) {
         session,
         "p10_p90",
         value = c(v$lo, v$hi)
+      )
+
+      shiny::updateSliderInput(
+        session,
+        "mode",
+        value = v$mode
       )
 
       shiny::updateTextAreaInput(session, "why_lo", value = v$comments_lo)
@@ -137,7 +146,8 @@ mod_mitigator_server <- function(id, email, strategies) {
         insert_data(
           email(),
           s,
-          input$param_values,
+          input$p10_p90,
+          input$mode,
           input$why_lo,
           input$why_hi
         )
@@ -222,6 +232,8 @@ mod_mitigator_server <- function(id, email, strategies) {
 
       md_file_to_html("app", "mitigators_text", paste0(s, ".md"))
     })
+
+    # the probability plot with user's parameters
 
     if (!is_phase_1()) {
       output$results_plot <- plotly::renderPlotly({

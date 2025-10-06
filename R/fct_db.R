@@ -25,6 +25,7 @@ get_db <- function(envir = parent.frame()) {
         strategy = "TEXT NOT NULL",
         lo = "REAL NOT NULL",
         hi = "REAL NOT NULL",
+        mode = "REAL NOT NULL",
         comments_lo = "TEXT NOT NULL",
         comments_hi = "TEXT NOT NULL"
       )
@@ -39,7 +40,14 @@ get_db <- function(envir = parent.frame()) {
   return(con)
 }
 
-insert_data <- function(email, strategy, values, comments_lo, comments_hi) {
+insert_data <- function(
+  email,
+  strategy,
+  values,
+  mode,
+  comments_lo,
+  comments_hi
+) {
   id <- uuid::UUIDgenerate()
   timestamp <- as.integer(Sys.time())
 
@@ -53,6 +61,7 @@ insert_data <- function(email, strategy, values, comments_lo, comments_hi) {
       strategy = strategy,
       lo = values[[1]],
       hi = values[[2]],
+      mode = mode,
       comments_lo = comments_lo,
       comments_hi = comments_hi
     )
@@ -62,8 +71,9 @@ insert_data <- function(email, strategy, values, comments_lo, comments_hi) {
 }
 
 lazy_get_latest_results <- function(
-    phase_1,
-    con = get_db(parent.frame())) {
+  phase_1,
+  con = get_db(parent.frame())
+) {
   res <- dplyr::tbl(con, "results")
 
   if (!missing(phase_1)) {
@@ -101,7 +111,7 @@ get_latest_results <- function(email, strategy, phase_1 = is_phase_1()) {
     dplyr::filter(
       .data[["email"]] == .env[["email"]]
     ) |>
-    dplyr::select("strategy", tidyselect::matches("(lo|hi)$"))
+    dplyr::select("strategy", tidyselect::matches("(lo|hi|mode)$"))
 
   if (!missing(strategy)) {
     r <- dplyr::filter(r, .data[["strategy"]] == .env[["strategy"]])
