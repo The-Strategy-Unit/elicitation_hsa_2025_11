@@ -1,1 +1,1 @@
-Additional text for male.
+For a typical male (from the middle quantile of deprivation) of age 65 years in 2045, what proportion of their remaining life expectancy will be spent free of disability (i.e., without a limiting long-standing illness)?

@@ -3,15 +3,15 @@ default:
   golem_version: 0.0.0.9000
   app_prod: no
   range:
-    low: -10
-    high: 10
+    low: 0
+    high: 100
   strategies:
     hsa:
       female:
-        name: Female
+        name: Female Health Status
         label: "Health Status"
       male:
-        name: Male
+        name: Male Health Status
         label: "Health Status"
 production:
   app_prod: yes
