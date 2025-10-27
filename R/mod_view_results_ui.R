@@ -16,7 +16,6 @@ mod_view_results_ui <- function(id) {
     }) |>
     purrr::flatten()
 
-
   ns <- shiny::NS(id)
 
   bslib::layout_columns(

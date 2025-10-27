@@ -10,7 +10,6 @@ mod_home_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
     shiny::fluidRow(
-
       bslib::layout_columns(
         col_widths = c(8, 4),
         bslib::card(
@@ -25,7 +24,6 @@ mod_home_ui <- function(id) {
           )
         ),
         if (app_is_live()) {
-          
           bslib::card(
             bslib::card_header(
               "Enter your email"

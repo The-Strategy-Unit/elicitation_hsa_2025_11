@@ -36,7 +36,6 @@ app_server <- function(input, output, session) {
 
   mod_view_results_server("view_results")
 
-
   shiny::observe({
     is_local <- Sys.getenv("SHINY_PORT") == ""
 
