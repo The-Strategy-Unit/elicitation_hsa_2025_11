@@ -243,7 +243,8 @@ mod_mitigator_server <- function(id, email, strategies) {
               phase_1 = TRUE,
               strategy = selected_strategy_id()
             ),
-            input$param_values,
+            input$p10_p90,
+            input$mode,
             email()
           )
         )

@@ -1,15 +1,14 @@
-mitigator_results_plot <- function(data, values, email) {
+mitigator_results_plot <- function(data, values, mode, email) {
   data |>
     dplyr::mutate(
       is_me = .data[["email"]] == .env[["email"]],
-      mean = (.data[["lo"]] + .data[["hi"]]) / 2
     ) |>
     dplyr::filter(
-      .data[["is_me"]] | !(
-        .data[["lo"]] == get_golem_config("range")$low & .data[["hi"]] == get_golem_config("range")$high
-      )
+      .data[["is_me"]] |
+        !(.data[["lo"]] == get_golem_config("range")$low &
+          .data[["hi"]] == get_golem_config("range")$high)
     ) |>
-    dplyr::arrange(.data[["mean"]]) |>
+    dplyr::arrange(.data[["mode"]]) |>
     dplyr::mutate(
       y = dplyr::row_number()
     ) |>
@@ -22,13 +21,14 @@ mitigator_results_plot <- function(data, values, email) {
     ggplot2::geom_rect(
       xmin = values[[1]],
       xmax = values[[2]],
-      ymin = 0, ymax = nrow(data) + 1,
+      ymin = 0,
+      ymax = nrow(data) + 1,
       fill = "#fef2cd",
-      text = "hi",
       show.legend = FALSE
     ) +
     ggplot2::geom_vline(xintercept = values[[1]], colour = "#fcdf83") +
     ggplot2::geom_vline(xintercept = values[[2]], colour = "#fcdf83") +
+    ggplot2::geom_vline(xintercept = mode, colour = "orange", lty = "dashed") +
     ggplot2::geom_point(
       ggplot2::aes(
         x = .data[["lo"]],
@@ -45,9 +45,17 @@ mitigator_results_plot <- function(data, values, email) {
       size = 3,
       show.legend = FALSE
     ) +
+    ggplot2::geom_point(
+      ggplot2::aes(
+        x = .data[["mode"]]
+      ),
+      size = 3,
+      show.legend = FALSE
+    ) +
     ggplot2::geom_segment(
       ggplot2::aes(
-        x = .data[["lo"]], xend = .data[["hi"]],
+        x = .data[["lo"]],
+        xend = .data[["hi"]],
         yend = .data[["y"]]
       ),
       lwd = 1.5,
