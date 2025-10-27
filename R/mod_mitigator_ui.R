@@ -58,7 +58,7 @@ mod_mitigator_ui <- function(id) {
           get_golem_config("range")$high
         ),
         dragRange = FALSE,
-        step = 0.1,
+        step = 1,
         width = "100%"
       ),
 
@@ -70,7 +70,7 @@ mod_mitigator_ui <- function(id) {
           min = get_golem_config("range")$low,
           max = get_golem_config("range")$high,
           value = 50,
-          step = 0.1,
+          step = 1,
           width = "100%"
         )
       ),
