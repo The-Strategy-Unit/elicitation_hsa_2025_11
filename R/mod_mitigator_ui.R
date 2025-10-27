@@ -62,14 +62,17 @@ mod_mitigator_ui <- function(id) {
         width = "100%"
       ),
 
-      shiny::sliderInput(
-        ns("mode"),
-        "The best or mostly likely value",
-        min = get_golem_config("range")$low,
-        max = get_golem_config("range")$high,
-        value = 50,
-        step = 0.1,
-        width = "100%"
+      shiny::div(
+        class = "no-bar-slider",
+        shiny::sliderInput(
+          ns("mode"),
+          "The best or mostly likely value",
+          min = get_golem_config("range")$low,
+          max = get_golem_config("range")$high,
+          value = 50,
+          step = 0.1,
+          width = "100%"
+        )
       ),
     ),
     bslib::card(

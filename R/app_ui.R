@@ -52,6 +52,13 @@ golem_add_external_resources <- function() {
       path = app_sys("app/www"),
       app_title = "NHP National Elicitation Tool"
     ),
-    shiny::tags$base(target = "_blank")
+    shiny::tags$base(target = "_blank"),
+    shiny::tags$style(shiny::HTML(
+      "
+  .no-bar-slider .irs-bar {
+    display: none;
+  }
+      "
+    ))
   )
 }
