@@ -53,10 +53,7 @@ mod_mitigator_ui <- function(id) {
         "The lower and upper plausible values",
         min = get_golem_config("range")$low,
         max = get_golem_config("range")$high,
-        value = c(
-          get_golem_config("range")$low,
-          get_golem_config("range")$high
-        ),
+        value = c(0, 0),
         dragRange = FALSE,
         step = 1,
         width = "100%"
@@ -69,7 +66,7 @@ mod_mitigator_ui <- function(id) {
           "The best or mostly likely value",
           min = get_golem_config("range")$low,
           max = get_golem_config("range")$high,
-          value = 50,
+          value = 0,
           step = 1,
           width = "100%"
         )

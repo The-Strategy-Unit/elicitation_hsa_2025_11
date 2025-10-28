@@ -85,11 +85,9 @@ mod_mitigator_server <- function(id, email, strategies) {
       v <- if (nrow(v) == 0) {
         if (is_phase_1()) {
           list(
-            lo = get_golem_config("range")$low,
-            hi = get_golem_config("range")$high,
-            mode = (get_golem_config("range")$high -
-              get_golem_config("range")$low) /
-              2, # sensible default
+            lo = 0,
+            hi = 0,
+            mode = 0,
             comments_lo = "",
             comments_hi = ""
           )
