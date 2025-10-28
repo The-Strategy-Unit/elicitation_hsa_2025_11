@@ -68,5 +68,6 @@ plot_split_normal <- function(fit) {
   ) |>
     tibble::as_tibble() |>
     ggplot2::ggplot() +
-    ggplot2::geom_density(ggplot2::aes(x = .data$value))
+    ggplot2::geom_density(ggplot2::aes(x = .data$value)) +
+    ggplot2::xlim(0, 100)
 }
