@@ -68,6 +68,16 @@ plot_split_normal <- function(fit) {
   ) |>
     tibble::as_tibble() |>
     ggplot2::ggplot() +
-    ggplot2::geom_density(ggplot2::aes(x = .data$value)) +
-    ggplot2::xlim(0, 100)
+    ggplot2::geom_density(ggplot2::aes(x = .data$value / 100)) +
+    ggplot2::theme_minimal(base_size = 18) +
+    ggplot2::theme(
+      axis.text.y = ggplot2::element_blank(),
+      axis.title = ggplot2::element_blank(),
+      panel.grid.major.y = ggplot2::element_blank(),
+      panel.grid.minor.y = ggplot2::element_blank()
+    ) +
+    ggplot2::labs(
+      x = "Proportion of remaining life expectancy spent free of disability (%)"
+    ) +
+    ggplot2::scale_x_continuous(labels = scales::percent, limits = c(0, 1))
 }

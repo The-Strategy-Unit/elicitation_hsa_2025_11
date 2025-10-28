@@ -74,8 +74,7 @@ mod_mitigator_ui <- function(id) {
     ),
     bslib::card(
       bslib::card_header(
-        "Probability distribution of the proportion of remaining
-        life expectancy spent free of disability (%)"
+        "Probability distribution"
       ),
       shiny::plotOutput(ns("split_normal_plot"))
     ),
