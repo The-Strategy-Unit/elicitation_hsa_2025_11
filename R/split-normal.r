@@ -67,8 +67,10 @@ plot_split_normal <- function(fit) {
     sd2 = fit$sigma_r
   ) |>
     tibble::as_tibble() |>
+    dplyr::filter(is.finite(.data$value)) |>
+    dplyr::filter(.data$value > 0, .data$value < 100) |>
     ggplot2::ggplot() +
-    ggplot2::geom_density(ggplot2::aes(x = .data$value / 100)) +
+    ggplot2::geom_density(ggplot2::aes(x = .data$value / 100)) + # divide by 100 to use scale percent
     ggplot2::theme_minimal(base_size = 18) +
     ggplot2::theme(
       axis.text.y = ggplot2::element_blank(),
