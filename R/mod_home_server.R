@@ -136,7 +136,7 @@ mod_home_server <- function(id) {
         ) |>
         dplyr::select(-"strategy") |>
         gt::gt(groupname_col = "label") |>
-        gt::cols_label(name = "Mitigator") |>
+        gt::cols_label(name = "Question") |>
         gt::tab_options(
           row_group.border.top.width = gt::px(2),
           row_group.border.top.color = "black",
