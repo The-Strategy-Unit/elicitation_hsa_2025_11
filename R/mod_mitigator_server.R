@@ -7,6 +7,24 @@ mod_mitigator_server <- function(id, email, strategies) {
     .data <- rlang::.data
 
     # reactives ----------------------------------------------------------------
+    # Are the p10, p90 and mode valid to make a split normal?
+    valid_params <- shiny::reactive({
+      shiny::req(input$p10_p90, input$mode)
+
+      (input$p10_p90[1] < input$mode) & (input$mode < input$p10_p90[2])
+    })
+
+    shiny::observe({
+      s <- selected_strategy()
+      ls <- length(strategies())
+      v <- valid_params()
+      visited_all <- has_visited_all_strategies()
+
+      # Only enable buttons if valid_params is TRUE AND position logic is satisfied
+      shinyjs::toggleState("prev_strat", v & (s > 1))
+      shinyjs::toggleState("next_strat", v & (s < ls))
+      shinyjs::toggleState("complete", v & visited_all)
+    })
 
     # this reactive value holds the index of the currently selected strategy
     # it's incremented/decremented by the next/previous buttons
@@ -47,7 +65,7 @@ mod_mitigator_server <- function(id, email, strategies) {
 
       # skip the completed questions, unless we have 100% completed
       if (completed < total) {
-        shinyjs::toggleState("prev_strat", TRUE)
+        shinyjs::toggleState("prev_strat", valid_params())
         # move to the first strategy not complete
         selected_strategy(completed + 1)
 
@@ -56,7 +74,7 @@ mod_mitigator_server <- function(id, email, strategies) {
           shinyjs::toggle("next", FALSE)
           shinyjs::toggleState("next", FALSE)
           shinyjs::toggle("complete", TRUE)
-          shinyjs::toggleState("complete", TRUE)
+          shinyjs::toggleState("complete", valid_params())
         }
       }
     })
@@ -200,9 +218,12 @@ mod_mitigator_server <- function(id, email, strategies) {
           # strategy then don't enable the next button (it should be hidden
           # though). and only enable the complete button if we have visited all
           # the strategies (again, it should be hidden if this isn't the case)
-          shinyjs::toggleState("prev_strat", s > 1)
-          shinyjs::toggleState("next_strat", s < ls)
-          shinyjs::toggleState("complete", has_visited_all_strategies())
+          shinyjs::toggleState("prev_strat", valid_params() & (s > 1))
+          shinyjs::toggleState("next_strat", valid_params() & (s < ls))
+          shinyjs::toggleState(
+            "complete",
+            valid_params() & has_visited_all_strategies()
+          )
         })
     }
 
@@ -210,6 +231,17 @@ mod_mitigator_server <- function(id, email, strategies) {
 
     # The split normal is visualised
     output$split_normal_plot <- shiny::renderPlot({
+      shiny::validate(
+        shiny::need(
+          input$mode > input$p10_p90[1],
+          "Mode must be bigger than p10"
+        ),
+        shiny::need(
+          input$mode < input$p10_p90[2],
+          "Mode must be smaller than p90"
+        )
+      )
+
       est_spnorm_from_p10p90(
         mode = input$mode,
         p10 = input$p10_p90[1],
