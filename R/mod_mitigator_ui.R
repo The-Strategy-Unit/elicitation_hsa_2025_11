@@ -45,12 +45,11 @@ mod_mitigator_ui <- function(id) {
       bslib::card_header("Input Parameters"),
 
       shiny::tags$p(
-        "Based on your expertise and experience, please use the sliders
-         to choose values for the question above."
+        "Please use the sliders below to set your values."
       ),
       shiny::sliderInput(
         ns("p10_p90"),
-        "The lower and upper plausible values",
+        "Your surprisingly low and surprisingly high values",
         min = get_golem_config("range")$low,
         max = get_golem_config("range")$high,
         value = c(0, 0),
@@ -63,7 +62,7 @@ mod_mitigator_ui <- function(id) {
         class = "no-bar-slider",
         shiny::sliderInput(
           ns("mode"),
-          "The best or mostly likely value",
+          "The mostly likely value",
           min = get_golem_config("range")$low,
           max = get_golem_config("range")$high,
           value = 0,
@@ -81,14 +80,14 @@ mod_mitigator_ui <- function(id) {
     bslib::card(
       shiny::textAreaInput(
         ns("why_lo"),
-        label = "What is your rationale for your surprisingly low prediction (P10) of residual growth?", #nolint: line_length_linter
+        label = "Rationale for your surprisingly low value", #nolint: line_length_linter
         width = "100%"
       )
     ),
     bslib::card(
       shiny::textAreaInput(
         ns("why_hi"),
-        label = "What is your rationale for your surprisingly high prediction (P90) of residual growth?", #nolint: line_length_linter
+        label = "Rationale for your surprisingly low value", #nolint: line_length_linter
         width = "100%"
       )
     ),

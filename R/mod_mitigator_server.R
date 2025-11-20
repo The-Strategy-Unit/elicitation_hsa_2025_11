@@ -234,11 +234,11 @@ mod_mitigator_server <- function(id, email, strategies) {
       shiny::validate(
         shiny::need(
           input$mode > input$p10_p90[1],
-          "Most likely value must be bigger than lower value"
+          "Most likely value must be greater than surprisingly low value"
         ),
         shiny::need(
           input$mode < input$p10_p90[2],
-          "Most likely value must be smaller than upper value"
+          "Most likely value must be smaller than surprisingly high value"
         )
       )
 

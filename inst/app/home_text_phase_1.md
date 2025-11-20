@@ -1,3 +1,3 @@
-# Round 1
+# Welcome to the online app for the Health Status elicitation exercise
 
-Text to be shown before Round 1.
+Round 1

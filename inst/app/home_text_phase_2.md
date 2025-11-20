@@ -1,3 +1,3 @@
-# Round 2
+# Health Status elicitation exercise
 
-Text to be shown before Round 2.
+Round 2
