@@ -52,7 +52,7 @@ mod_view_results_server <- function(id) {
     results_data <- shiny::reactive({
       all_data() |>
         dplyr::filter(.data[["strategy"]] == input$strategy) |>
-        dplyr::select("lo", "hi") |>
+        dplyr::select("lo", "hi", "mode") |>
         dplyr::arrange(.data[["lo"]], .data[["hi"]]) |>
         dplyr::mutate(rn = dplyr::row_number())
     }) |>
@@ -87,6 +87,13 @@ mod_view_results_server <- function(id) {
         ) |> # Remove any values left at default
         ggplot2::ggplot(
           ggplot2::aes(x = .data[["lo"]], y = .data[["rn"]])
+        ) +
+        ggplot2::geom_point(
+          ggplot2::aes(
+            x = .data[["mode"]]
+          ),
+          size = 3,
+          show.legend = FALSE
         ) +
         ggplot2::geom_segment(
           ggplot2::aes(xend = .data[["hi"]], yend = .data[["rn"]]),
