@@ -55,31 +55,58 @@ est_spnorm_from_p10p90 <- function(mode, p10, p90, tol = 1e-10) {
   )
 }
 
+#' Calculate PDF for split normal
+#' @description Generates and then plots a split normal from
+#' the mode, and two sd (left and right)
+#' @param x sample grid
+#' @param mu mode 
+#' @param sigma_l sigma for left distribution
+#' @param sigma_r sigma for right distribution
+split_pdf <- function(x, mu = 0, sigma_l = 1, sigma_r = 1) {
+  c <- sqrt(2 / pi) / (sigma_l + sigma_r)
+  ifelse(
+    x < mu,
+    c * exp(- (x - mu)^2 / (2 * sigma_l^2)),
+    c * exp(- (x - mu)^2 / (2 * sigma_r^2))
+  )
+}
+
 #' Plot split normal
 #' Generates and then plots a split normal from
 #' the mode, and two sd (left and right)
 #' @param fit object returned from est_spnorm_from_p10p90
 plot_split_normal <- function(fit) {
-  fanplot::rsplitnorm(
-    1e6,
-    mode = fit$mu,
-    sd1 = fit$sigma_l,
-    sd2 = fit$sigma_r
-  ) |>
-    tibble::as_tibble() |>
-    dplyr::filter(is.finite(.data$value)) |>
-    dplyr::filter(.data$value > 0, .data$value < 100) |>
-    ggplot2::ggplot() +
-    ggplot2::geom_density(ggplot2::aes(x = .data$value / 100)) + # divide by 100 to use scale percent
+
+lower = 0
+upper = 100
+tol = 0.1
+
+  xs <- seq(lower - 0.1, upper + 0.1, length.out = 2000)
+  fx <- split_pdf(xs, mu = fit$mu, sigma_l = fit$sigma_l, sigma_r = fit$sigma_r)
+  mass_in_interval <- sum(fx[xs >= lower & xs <= upper]) * (xs[2] - xs[1])
+  
+  # truncated (theoretical) pdf on a grid
+  grid <- seq(lower - tol, upper + tol, length.out = 800)
+  theo_pdf <- split_pdf(
+    grid,
+    mu = fit$mu,
+    sigma_l = fit$sigma_l,
+    sigma_r = fit$sigma_r
+  )
+  theo_pdf[!(grid >= lower & grid <= upper)] <- 0
+  theo_pdf <- theo_pdf / mass_in_interval
+  
+ tibble::tibble(x = grid, theo = theo_pdf) |>
+   ggplot2::ggplot(ggplot2::aes(x = grid, y = theo_pdf)) +
+   ggplot2::geom_line() +
     ggplot2::theme_minimal(base_size = 18) +
-    ggplot2::theme(
-      axis.text.y = ggplot2::element_blank(),
-      axis.title = ggplot2::element_blank(),
-      panel.grid.major.y = ggplot2::element_blank(),
-      panel.grid.minor.y = ggplot2::element_blank()
-    ) +
-    ggplot2::labs(
-      x = "Proportion of remaining life expectancy spent free of disability (%)"
-    ) +
-    ggplot2::scale_x_continuous(labels = scales::percent, limits = c(0, 1))
+     ggplot2::theme(
+       axis.text.y = ggplot2::element_blank(),
+       axis.title = ggplot2::element_blank(),
+       panel.grid.major.y = ggplot2::element_blank(),
+       panel.grid.minor.y = ggplot2::element_blank()
+     ) +
+     ggplot2::labs(
+       x = "Proportion of remaining life expectancy spent free of disability (%)"
+     )
 }
