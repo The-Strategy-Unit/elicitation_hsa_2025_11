@@ -515,6 +515,17 @@
       ],
       "Hash": "7c29cedd515863338c7f5f77fe9ddf74"
     },
+    "fanplot": {
+      "Package": "fanplot",
+      "Version": "4.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "methods"
+      ],
+      "Hash": "625356525da3dd25bbd53672fa7e03a9"
+    },
     "fansi": {
       "Package": "fansi",
       "Version": "1.0.6",
