@@ -3,6 +3,7 @@ deploy <- function(name) {
     appFiles = c(
       "DESCRIPTION",
       "NAMESPACE",
+      "_brand.yml",
       fs::dir_ls("R"),
       "app.R",
       fs::dir_ls("inst", recurse = TRUE)
