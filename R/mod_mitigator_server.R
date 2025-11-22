@@ -18,13 +18,13 @@ mod_mitigator_server <- function(id, email, strategies) {
       s <- selected_strategy()
       ls <- length(strategies())
       v <- valid_params()
-      visited_all <- has_visited_all_strategies()
+      visited_all <- (s == ls) | has_visited_all_strategies() # To handle complete bug on final strategy
 
       # Only enable buttons if valid_params is TRUE AND position logic is satisfied
       shinyjs::toggleState("prev_strat", v & (s > 1))
       shinyjs::toggleState("next_strat", v & (s < ls))
-      shinyjs::toggleState("complete", v & visited_all)
-    })
+      shinyjs::toggleState("complete", v & visited_all) 
+    }) 
 
     # this reactive value holds the index of the currently selected strategy
     # it's incremented/decremented by the next/previous buttons
@@ -194,7 +194,7 @@ mod_mitigator_server <- function(id, email, strategies) {
 
       # if we are on the last strategy, hide the next button
       shinyjs::toggle("next_strat", condition = s < ls)
-      # if we have visited all the strategies, show the complte button
+      # if we have visited all the strategies, show the complete button
       shinyjs::toggle("complete", condition = has_visited_all_strategies())
 
       # debounce the buttons: we first disable all of the buttons so they can't
