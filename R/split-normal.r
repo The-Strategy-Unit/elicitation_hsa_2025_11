@@ -99,6 +99,8 @@ tol = 0.1
  tibble::tibble(x = grid, theo = theo_pdf) |>
    ggplot2::ggplot(ggplot2::aes(x = grid, y = theo_pdf)) +
    ggplot2::geom_line() +
+  ggplot2::geom_vline(ggplot2::aes(xintercept = 0), lwd = 2, colour = "grey") +
+  ggplot2::geom_vline(ggplot2::aes(xintercept = 100), lwd = 2, colour = "grey") +
     ggplot2::theme_minimal(base_size = 18) +
      ggplot2::theme(
        axis.text.y = ggplot2::element_blank(),
