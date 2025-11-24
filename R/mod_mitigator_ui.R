@@ -87,7 +87,7 @@ mod_mitigator_ui <- function(id) {
     bslib::card(
       shiny::textAreaInput(
         ns("why_hi"),
-        label = "Rationale for your surprisingly low value", #nolint: line_length_linter
+        label = "Rationale for your surprisingly high value", #nolint: line_length_linter
         width = "100%"
       )
     ),
